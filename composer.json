@@ -1,0 +1,23 @@
+{
+    "name": "pts/servicios",
+    "description": "Nueva forma de hacer servicios",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Brian Javier Vazquez",
+            "email": "elbrian666@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "lcobucci/jwt": "^4.2",
+        "phpmailer/phpmailer": "^6.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "configuration\\":"./config",
+            "models\\":"./models"
+        }
+    }
+}
