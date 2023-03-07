@@ -2,7 +2,7 @@
 
 namespace configuration;
 
-require "../../vendor/autoload.php";
+//require "../../vendor/autoload.php";
 
 
 class algorithms{
@@ -42,3 +42,5 @@ class algorithms{
         return strval(date("Ymd-His")) . "-" . $randomString;
     }
 }
+
+?>

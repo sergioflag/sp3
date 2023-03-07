@@ -10,7 +10,7 @@ class db{
 
 
     static $host = "localhost";
-    static $dbname = "db_biblioteca";
+    static $dbname = "db_cafeteria";
     static $username = "root";
     static $passwd = "";
 
@@ -69,3 +69,5 @@ class db{
         return $result;
     }
 }
+
+?>
