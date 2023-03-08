@@ -59,3 +59,34 @@
         -- ELIMINAR UN USUARIO (En realidad, solo se les cambia los estados a las tablas de personas y usuarios a false)
             UPDATE personas SET estado = 0
             UPDATE usuarios SET estado = 0
+
+
+-- MODULO DE LOGIN
+
+    -- BUSCAR UN USUARIO EN BASE A SU ID Y EXTRAER SU MENU
+    SELECT 
+        personas.id_persona id_persona, personas.nombres nombres, personas.a_paterno a_paterno, personas.a_materno a_materno,
+        usuarios.contrasena contrasena,
+        perfiles.perfil perfil,
+        menu.recurso recurso
+    FROM usuarios
+    INNER JOIN personas ON usuarios.id_persona = personas.id_persona
+    INNER JOIN perfiles ON usuarios.id_perfil = perfiles.id_perfil
+    INNER JOIN perfil_menu ON perfiles.id_perfil = perfil_menu.id_perfil
+    INNER JOIN menu ON perfil_menu.id_menu = menu.id_menu
+    WHERE usuarios.correo = ''
+
+    -- BUSCAR UN USUARIO PARA METODO DE ACTUALIZAR SU CONTRASEÑA
+    SELECT 
+        personas.id_persona id_persona, personas.nombres nombres, personas.a_paterno a_paterno, personas.a_materno a_materno,
+        usuarios.contrasena contrasena
+    FROM usuarios
+    INNER JOIN personas ON usuarios.id_persona = personas.id_persona
+    WHERE usuarios.correo = ''
+
+    -- ACTUALIZAR CONTRASENA
+    UPDATE usuarios
+    SET contrasena = ''
+    WHERE correo = ''
+
+
