@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+    <!--APP EN VISTA LOGIN-->
+    <div id="app" class="w-screen h-screen bg-emerald-200 p-4 flex items-start flex-col">
+        <title>ventas</title>
+        <ventas-component></ventas-component>
+    </div>
+    <!--APP EN VISTA LOGIN-->
+
+    <!--CONJUNTO DE PLANTILLAS DE LOS COMPONENTES-->
+
+    <script type="text/html" id="ventas-template">
+
+        <div class="w-full h-full flex gap-4">
+
+            <div class="flex p-4">
+                <sidebar-component></sidebar-component>
+            </div>
+
+            <div class="flex p-4">
+                <span class="text-emerald-800 text-xl font-bold">Ventas</span>
+            </div>
+
+        </div>
+
+    </script>
+
+    <script type="text/html" id="sidebar-template">
+
+        <div class="w-64 h-full flex flex-col justify-between p-2 bg-emerald-500 rounded-md">
+
+            <div class="flex flex-col gap-4 w-full">
+
+                <span class="text-emerald-800 text-xl font-bold text-center">Cafeteria App</span>
+
+                <div class="flex flex-col gap-4 w-full">
+                    <a 
+                    v-for="item of menu"
+                    :href="item+'.html'" 
+                    class="rounded-md p-2 bg-emerald-800 text-emerald-100 font-bold text-center text-md hover:bg-emerald-100 hover:text-emerald-800">{{item}}</a>
+                </div>
+                
+            </div>
+
+
+            <div class="flex flex-col gap-4">
+
+                <div class="flex flex-col gap-2 items-center justify-center">
+                    <div class="w-16 h-16 rounded-full p-2 bg-emerald-50 flex items-center justify-center text-emerald-800 font-bold">{{usuario.nombres[0]}}{{usuario.a_paterno[0]}}</div>
+                    <span class="text-emerald-800 text-sm font-bold">{{usuario.nombres}} {{usuario.a_paterno}} {{usuario.a_materno}}</span>
+                    <span class="text-emerald-800 text-sm font-regular">{{usuario.perfil}}</span>
+                </div>
+
+                <div class="flex flex-col gap-2 items-center justify-center">
+                    <button @click="cerrar" class="rounded-md p-2 bg-emerald-800 font-bold text-center text-amber-50 hover:bg-rose-800">Salir</button>
+                </div>
+                
+            </div>
+
+        </div>
+
+    </script>
+
+    <!--CONJUNTO DE PLANTILLAS DE LOS COMPONENTES-->
+
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../js/components.js"></script>
+    <script src="../js/app.js"></script>
+</body>
+</html>

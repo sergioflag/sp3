@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+    <!--APP EN VISTA LOGIN-->
+    <div id="app" class="w-screen h-screen bg-emerald-200 p-4 flex items-start flex-col">
+        <title>usuarios</title>
+        <usuarios-component></usuarios-component>
+    </div>
+    <!--APP EN VISTA LOGIN-->
+
+    <!--CONJUNTO DE PLANTILLAS DE LOS COMPONENTES-->
+
+    <script type="text/html" id="usuarios-template">
+
+        <div class="w-full h-full flex gap-4">
+
+            <div class="flex p-4">
+                <sidebar-component></sidebar-component>
+            </div>
+
+            <div class="flex w-full flex-col gap-4 p-4">
+
+                <div class="flex">
+                    <span class="text-emerald-800 text-xl font-bold">Usuarios</span>
+                </div>
+
+                <!--GRID DE USUARIOS-->
+                <div v-if="elementos.showLista && !elementos.showFormContrasena" class="flex flex-col gap-4 p-4 rounded-md bg-emerald-500">
+                    
+                    <div class="flex justify-end items-center">
+                        <button @click="btn_nuevoUsuario" class="rounded-md bg-emerald-800 p-2 text-emerald-100 font-bold text-lg hover:bg-emerald-50 hover:text-emerald-800">Nuevo Usuario</button>
+                    </div>
+                    
+                    <div class="flex flex-col gap-4 items-center justify-center">
+                        <div 
+                        v-for="usuario in listaUsuarios"
+                        class="w-full rounded-md bg-emerald-100 p-2 items-center justify-around flex"
+                        :class="{'bg-rose-200':usuario.estado ==='0'}">
+
+                            <div @click="cargarUsuario(usuario)" class="flex hover:bg-emerald-200 items-center justify-around p-2 rounded-md gap-8">
+
+                                <div class="flex gap-4 items-center justify-between">
+
+                                    <div class="flex items-center justify-center bg-emerald-800 w-16 h-16 rounded-full p-2 text-emerald-100 font-bold">
+                                        {{usuario.nombres[0]}}{{usuario.a_paterno[0]}}
+                                    </div>
+                                    <div class="flex flex-col gap-2">
+                                        <span class="text-emerald-800 font-bold text-md">Nombre:</span>
+                                        <span class="text-emerald-800 font-regular text-md">{{usuario.nombres}} {{usuario.a_paterno}} {{usuario.a_materno}}</span>
+                                    </div>
+                                    
+                                </div>
+                                
+                                <div class="flex gap-4 items-center justify-between">
+                                    <div class="flex flex-col gap-2">
+                                        <span class="text-emerald-800 font-bold text-md">Perfil:</span>
+                                        <span class="text-emerald-800 font-regular text-md">{{usuario.perfil}}</span>
+                                    </div>
+                                </div>
+
+                                <div class="flex gap-4 items-center justify-between">
+                                    <div class="flex flex-col gap-2">
+                                        <span class="text-emerald-800 font-bold text-md">Teléfono:</span>
+                                        <span class="text-emerald-800 font-regular text-md">{{usuario.telefono}}</span>
+                                    </div>
+                                </div>
+
+                                <div class="flex gap-4 items-center justify-between">
+                                    <div class="flex flex-col gap-2">
+                                        <span class="text-emerald-800 font-bold text-md">Correo:</span>
+                                        <span class="text-emerald-800 font-regular text-md">{{usuario.correo}}</span>
+                                    </div>
+                                </div>
+                                
+
+                            </div>
+
+
+                            <div class="flex gap-4 items-center justify-between">
+
+                                <div class="flex flex-col gap-2">
+                                    <button @click="eliminarUsuario(usuario)" class="rounded-md p-2 bg-emerald-800 text-emerald-100 hover:bg-rose-500">Eliminar</button>
+                                    <button @click="btn_actualizarContrasena" class="rounded-md p-2 bg-emerald-800 text-emerald-100 hover:bg-amber-500">Actualizar contraseña</button>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!--GRID DE USUARIOS-->
+                
+                <!--FORMULARIO DE USUARIOS-->
+                <div v-if="!elementos.showLista && !elementos.showFormContrasena" class="flex p-4 rounded-md bg-emerald-500 justify-center">
+
+                    <form class="w-full rounded-md p-2 flex flex-col bg-emerald-200 gap-4">
+
+                        <div class="flex w-full items-center justify-center">
+                            <span class="text-emerald-800 text-center text-xl font-bold">{{metodo}}</span>
+                        </div>
+                        
+                        <div class="flex flex-col  w-full gap-2">
+
+                            <div class="flex w-full">
+                                <span class="text-emerald-800 text-center text-md font-bold">Datos personales</span>
+                            </div>
+
+                            <div class="flex w-full gap-4">
+
+                                <div class="flex flex-col w-full gap-2">
+                                    <label for="" class="text-emerald-800 text-md font-regular">Nombre (s):</label>
+                                    <input v-model="formulario.nombres" type="text" class="rounded-md bg-emerald-50 p-2 text-emerald-800" placeholder="Ingrese su nombre o nombres" required>
+                                </div>
+    
+                                <div class="flex flex-col w-full gap-2">
+                                    <label for="" class="text-emerald-800 text-md font-regular">Apellido Paterno:</label>
+                                    <input v-model="formulario.a_paterno" type="text" class="rounded-md bg-emerald-50 p-2 text-emerald-800" placeholder="Ingrese su apellido paterno" required>
+                                </div>
+
+                                <div class="flex flex-col w-full gap-2">
+                                    <label for="" class="text-emerald-800 text-md font-regular">Apellido Materno:</label>
+                                    <input v-model="formulario.a_materno" type="text" class="rounded-md bg-emerald-50 p-2 text-emerald-800" placeholder="Ingrese su apellido materno" required>
+                                </div>
+
+                            </div>
+
+                            <div class="flex w-full gap-4">
+
+                                <div class="flex flex-col w-full gap-2">
+                                    <label for="" class="text-emerald-800 text-md font-regular">Fecha de nacimiento:</label>
+                                    <input  v-model="formulario.f_nacimiento" type="date" class="rounded-md bg-emerald-50 p-2 text-emerald-800" required>
+                                </div>
+    
+                                <div class="flex flex-col w-full gap-2">
+                                    <label for="" class="text-emerald-800 text-md font-regular">Teléfono:</label>
+                                    <input  v-model="formulario.telefono" type="tel" class="rounded-md bg-emerald-50 p-2 text-emerald-800" placeholder="Ex. +52 485 125 3388" required>
+                                </div>
+
+                            </div>
+                            
+                        </div>
+
+                        <div class="flex flex-col  w-full gap-2">
+
+                            <div class="flex w-full">
+                                <span class="text-emerald-800 text-center text-md font-bold">Detalles del usuario</span>
+                            </div>
+
+                            <div class="flex w-full gap-4">
+
+                                <div class="flex flex-col w-full gap-2">
+                                    <label for="" class="text-emerald-800 text-md font-regular">Perfil:</label>
+                                    <select v-model="formulario.id_perfil" class="rounded-md p-2 bg-emerald-50 text-emerald-800">
+                                        <option selected>Seleccione una opción</option>
+                                        <option v-for="item in perfiles" :value="item.id_perfil">{{item.perfil}}</option>
+                                    </select>
+                                </div>
+    
+                                <div class="flex flex-col w-full gap-2">
+                                    <label for="" class="text-emerald-800 text-md font-regular">Correo electrónico:</label>
+                                    <input v-model="formulario.correo" type="email" class="rounded-md bg-emerald-50 p-2 text-emerald-800" placeholder="Ex. nombre@mail.com" required>
+                                </div>
+
+                                <div v-if="crear" class="flex flex-col w-full gap-2">
+                                    <label for="" class="text-emerald-800 text-md font-regular">Contraseña:</label>
+                                    <input v-model="formulario.contrasena" type="password" class="rounded-md bg-emerald-50 p-2 text-emerald-800" placeholder="XXXXX" required>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="flex items-center justify-end gap-4">
+                            <button @click.prevent="btn_cancelar" class="rounded-md bg-emerald-300 text-center p-2 text-emerald-800 font-bold hover:bg-rose-200">Cancelar</button>
+                            <button v-if="crear" @click.prevent="guardarUsuario" class="rounded-md bg-emerald-300 text-center p-2 text-emerald-800 font-bold hover:bg-amber-200">Guardar</button>
+                            <button v-if="!crear" @click.prevent="actualizarUsuario" class="rounded-md bg-emerald-300 text-center p-2 text-emerald-800 font-bold hover:bg-amber-200">Actualizar</button>
+                        </div>
+
+                    </form>
+
+                </div>
+                <!--FORMULARIO DE USUARIOS-->
+
+                <!--FORMULARIO DE ACTUALIZAR CONTRASEÑA-->
+                <div v-if="!elementos.showLista && elementos.showFormContrasena" class="flex p-4 rounded-md bg-emerald-500">Formulario de actualizar Contraseña</div>
+                <!--FORMULARIO DE ACTUALIZAR CONTRASEÑA-->
+
+            </div>
+
+
+        </div>
+
+    </script>
+
+    <script type="text/html" id="sidebar-template">
+
+        <div class="w-64 h-full flex flex-col justify-between p-2 bg-emerald-500 rounded-md">
+
+            <div class="flex flex-col gap-4 w-full">
+
+                <span class="text-emerald-800 text-xl font-bold text-center">Cafeteria App</span>
+
+                <div class="flex flex-col gap-4 w-full">
+                    <a 
+                    v-for="item of menu"
+                    :href="item+'.html'" 
+                    class="rounded-md p-2 bg-emerald-800 text-emerald-100 font-bold text-center text-md hover:bg-emerald-100 hover:text-emerald-800">{{item}}</a>
+                </div>
+                
+            </div>
+
+
+            <div class="flex flex-col gap-4">
+
+                <div class="flex flex-col gap-2 items-center justify-center">
+                    <div class="w-16 h-16 rounded-full p-2 bg-emerald-50 flex items-center justify-center text-emerald-800 font-bold">{{usuario.nombres[0]}}{{usuario.a_paterno[0]}}</div>
+                    <span class="text-emerald-800 text-sm font-bold">{{usuario.nombres}} {{usuario.a_paterno}} {{usuario.a_materno}}</span>
+                    <span class="text-emerald-800 text-sm font-regular">{{usuario.perfil}}</span>
+                </div>
+
+                <div class="flex flex-col gap-2 items-center justify-center">
+                    <button @click="cerrar" class="rounded-md p-2 bg-emerald-800 font-bold text-center text-amber-50 hover:bg-rose-800">Salir</button>
+                </div>
+                
+            </div>
+
+        </div>
+
+    </script>
+
+    <!--CONJUNTO DE PLANTILLAS DE LOS COMPONENTES-->
+
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../js/components.js"></script>
+    <script src="../js/app.js"></script>
+</body>
+</html>

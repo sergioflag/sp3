@@ -13,7 +13,7 @@ class Usuarios{
         $query = "SELECT 
             personas.id_persona id_persona, personas.nombres nombres, personas.a_paterno a_paterno, personas.a_materno a_materno, personas.f_nacimiento f_nacimiento, personas.telefono telefono,
             usuarios.id_usuario id_usuario, usuarios.correo correo, usuarios.estado estado,
-            perfiles.perfil perfil
+            perfiles.id_perfil id_perfil, perfiles.perfil perfil
         FROM usuarios
         INNER JOIN personas ON usuarios.id_persona = personas.id_persona
         INNER JOIN perfiles ON usuarios.id_perfil = perfiles.id_perfil";
@@ -70,7 +70,7 @@ class Usuarios{
             #Se crea la consulta de búsqueda del usuario en base a su correo y contraseña
             $query = "SELECT 1 existe
             FROM usuarios
-            WHERE correo = 'sergio@mail.com'";
+            WHERE correo = '$data->correo'";
             #El resultado del METODO QUERY de la CLASE DB se almacena en la variable consulta
             $consulta = db::query($query);
 
@@ -159,8 +159,8 @@ class Usuarios{
         #Se evalúa el contenido de la búsqueda
         if(isset($consulta[0]->existe)){
             #Si el usuario existe, se crea el query de eliminado
-            $deletes[0] = "UPDATE personas SET estado = 0";
-            $deletes[1] = "UPDATE usuarios SET estado = 0";
+            $deletes[0] = "UPDATE personas SET estado = 0 WHERE id_persona = '$_id'";
+            $deletes[1] = "UPDATE usuarios SET estado = 0 WHERE id_persona = '$_id'";
 
             if(db::stored_procedure($deletes)){
                 $salida['error'] = false;

@@ -97,29 +97,18 @@ class Auth{
                 if(algo::verify($data->contrasena,$usuario[0]->contrasena)){
                     #Si la contraseña es correcta, validamos la vieja contraseña y la nueva
 
-                    if($data->contrasena === $data->nueva_contrasena){
-                        #Si las contraseñas coinciden
-                        
-                        $data->nueva_contrasena = algo::hash($data->nueva_contrasena);
+                    $data->nueva_contrasena = algo::hash($data->nueva_contrasena);
 
-                        $query = "UPDATE usuarios
-                        SET contrasena = '$data->nueva_contrasena'
-                        WHERE correo = '$data->correo'";
+                    $query = "UPDATE usuarios
+                    SET contrasena = '$data->nueva_contrasena'
+                    WHERE correo = '$data->correo'";
 
-                        if(db::query($query)){
-                            $salida['error'] = false;
-                            $salida['mensaje'] = "La contraseña se actualizó correctamente";
-                            //$salida['mensaje'] = mailer::enviarCorreo($usuario[0]);
-
-                            
-
-                        }else{
-                            $salida['mensaje'] = "Hubo un error con la actualización de la contraseña";
-                        }
-
+                    if(db::query($query)){
+                        $salida['error'] = false;
+                        $salida['mensaje'] = "La contraseña se actualizó correctamente";
+                        //$salida['mensaje'] = mailer::enviarCorreo($usuario[0]);
                     }else{
-                        #Si las contraseñas no coinciden
-                        $salida['mensaje'] = "Las contraseñas no coinciden";
+                        $salida['mensaje'] = "Hubo un error con la actualización de la contraseña";
                     }
 
                 }else{
