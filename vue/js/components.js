@@ -101,6 +101,11 @@ const usuariosComponent={
                 contrasena:'',
                 id_perfil:''
             },
+            formContrasena:{
+                correo:'',
+                contrasena:'',
+                nueva_contrasena:''
+            },
             elementos:{
                 showLista:false,
                 showFormContrasena:false,
@@ -139,7 +144,7 @@ const usuariosComponent={
             this.elementos.showFormContrasena = true
             this.elementos.showLista = false;
             this.crear = false
-            this.metodo = 'Actualizar usuario'
+            this.metodo = 'Actualizar contraseña'
         },
         cargarUsuario:function(item){
             this.elementos.showLista = false;
@@ -159,6 +164,11 @@ const usuariosComponent={
             this.formulario.id_perfil = ''
             this.formulario.correo = ''
             this.formulario.contrasena = ''
+        },
+        limpiarFormContrasena:function(){
+            this.formContrasena.correo = ''
+            this.formContrasena.contrasena = ''
+            this.formContrasena.nueva_contrasena = ''
         },
         guardarUsuario:function(){
 
@@ -334,6 +344,58 @@ const usuariosComponent={
                 }
             })
 
+        },
+        actualizarContrasena:function(){
+
+            let item = JSON.parse(JSON.stringify(this.formContrasena))
+            const itemData = Object.values(item)
+
+            if(itemData.includes('')){
+                swal({
+                    icon:'warning',
+                    text:'Los campos están incompletos'
+                })
+            }else{
+
+                swal({
+                    icon:'warning',
+                    title:'¿Desea confirmar la actualización de la contraseña?',
+                    buttons:true,
+                    dangerMode:true
+                })
+                .then((actualizar)=>{
+                    if(actualizar){
+                        fetch('http://localhost/sp3/sp3/controllers/auth/_api.php',{
+                            method:'PUT',
+                            body:JSON.stringify(item),
+                            headers:{
+                                'content-type':'application/json'
+                            }
+                        })
+                        .then(respuesta=>respuesta.json())
+                        .then((respuesta)=>{
+                            console.log(respuesta)
+                            if(respuesta.error === false){
+                                swal({
+                                    icon:'success',
+                                    text:respuesta.mensaje
+                                })
+                                this.limpiarFormContrasena()
+                                this.btn_cancelar()
+                            }else{
+                                swal({
+                                    icon:'success',
+                                    text:respuesta.mensaje
+                                })
+                            }
+                        })
+
+                    }else{
+                        this.btn_cancelar()
+                    }
+                })
+
+            }
         }
     },
     created:function(){

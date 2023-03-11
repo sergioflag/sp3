@@ -188,7 +188,35 @@
                 <!--FORMULARIO DE USUARIOS-->
 
                 <!--FORMULARIO DE ACTUALIZAR CONTRASEÑA-->
-                <div v-if="!elementos.showLista && elementos.showFormContrasena" class="flex p-4 rounded-md bg-emerald-500">Formulario de actualizar Contraseña</div>
+                <div v-if="!elementos.showLista && elementos.showFormContrasena" class="flex p-4 rounded-md bg-emerald-500 items-center justify-center">
+                    <form class="flex flex-col gap-4 justify-start bg-emerald-300 rounded-md px-8 py-4">
+                        <div class="flex">
+                            <span class="text-emerald-800 font-bold text-xl">{{metodo}}</span>
+                        </div>
+                        <div class="flex flex-col gap-4">
+
+                            <div class="flex flex-col gap-2">
+                                <label for="" class="text-emerald-800 text-md">Correo electrónico:</label>
+                                <input v-model="formContrasena.correo" type="email" class="rounded-md bg-emerald-50 p-2 text-emerald-800" placeholder="Ex. nombre@mail.com">
+                            </div>
+
+                            <div class="flex flex-col gap-2">
+                                <label for="" class="text-emerald-800 text-md">Contraseña:</label>
+                                <input v-model="formContrasena.contrasena" type="password" class="rounded-md bg-emerald-50 p-2 text-emerald-800" placeholder="XXXXXXXXX">
+                            </div>
+
+                            <div class="flex flex-col gap-2">
+                                <label for="" class="text-emerald-800 text-md">Nueva contraseña:</label>
+                                <input v-model="formContrasena.nueva_contrasena" type="password" class="rounded-md bg-emerald-50 p-2 text-emerald-800" placeholder="XXXXXXXXX">
+                            </div>
+
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <button @click.prevent="btn_cancelar" class="p-2 bg-emerald-800 rounded-md text-emerald-50 hover:bg-rose-500 font-bold">Cancelar</button>
+                            <button @click.prevent="actualizarContrasena" class="p-2 bg-emerald-800 rounded-md text-emerald-50 hover:bg-amber-500 font-bold">Actualizar</button>
+                        </div>
+                    </form>
+                </div>
                 <!--FORMULARIO DE ACTUALIZAR CONTRASEÑA-->
 
             </div>
